@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MyStore.Models
+﻿namespace MyStore.Models
 {
     public class Product
     {
@@ -8,5 +6,7 @@ namespace MyStore.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public double Price { get; set; }
+        public Manufacturers Manufacturers { get; set; }
+        public Category Category { get; set; }
     }
 }

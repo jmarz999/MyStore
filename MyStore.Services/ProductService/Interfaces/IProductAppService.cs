@@ -1,10 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using MyStore.Models;
 
 namespace MyStore.Services
 {
     public interface IProductAppService
     {
+        Task<List<ProductDto>> GetAllAsync();
+        Task<ProductDto> GetByIdAsync(int id);
+        Task DeleteAsync(int id);
+        Task AddAsync(CreateProductDto product);
+        Task UpdateAsync(ProductDto product);
     }
 }

@@ -17,18 +17,16 @@ namespace MyStore.Repositories
 
         public async Task<List<Product>> GetAllAsync()
         {
-            return await context.Products.ToListAsync();
+            return await context.Products.AsNoTracking().ToListAsync();
         }
 
         public async Task<Product> GetByIdAsync(int id)
         {
-            return await context.Products.FirstOrDefaultAsync(x => x.Id.Equals(id));
+            return await context.Products.AsNoTracking().FirstOrDefaultAsync(x => x.Id.Equals(id));
         }
 
-        public async Task DeleteAsync(int id)
-        {
-            var product = await GetByIdAsync(id);
-
+        public async Task DeleteAsync(Product product)
+        { 
             context.Products.Remove(product);
 
             await context.SaveChangesAsync();
