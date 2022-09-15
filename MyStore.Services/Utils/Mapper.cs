@@ -12,7 +12,8 @@ namespace MyStore.Services.Utils
                 Description = dto.Description,
                 Manufacturers = dto.Manufacturers.ToEnum(Manufacturers.None),
                 Name = dto.Name,
-                Price = dto.Price
+                Price = dto.Price,
+                Img = dto.Img
             };
         }
         public static ProductDto ToDto(this Product product)
@@ -24,7 +25,8 @@ namespace MyStore.Services.Utils
                 Description = product.Description,
                 Manufacturers = product.Manufacturers.GetDisplayName(),
                 Name = product.Name,
-                Price = product.Price
+                Price = product.Price, 
+                Img = product.Img
             };
         }
 
@@ -37,7 +39,8 @@ namespace MyStore.Services.Utils
                 Description = product.Description,
                 Manufacturers = product.Manufacturers.ToEnum(Manufacturers.None),
                 Name = product.Name,
-                Price = product.Price
+                Price = product.Price,
+                Img = product.Img
             };
         }
     }

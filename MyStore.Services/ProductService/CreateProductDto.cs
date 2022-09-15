@@ -9,5 +9,6 @@ namespace MyStore.Services
         public double Price { get; set; }
         public string Manufacturers { get; set; }
         public string Category { get; set; }
+        public string Img { get; set; }
     }
 }
