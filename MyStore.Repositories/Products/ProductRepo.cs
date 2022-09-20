@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MyStore.Models;
@@ -26,7 +27,7 @@ namespace MyStore.Repositories
         }
 
         public async Task DeleteAsync(Product product)
-        { 
+        {
             context.Products.Remove(product);
 
             await context.SaveChangesAsync();
@@ -44,6 +45,11 @@ namespace MyStore.Repositories
             context.Products.Update(product);
 
             await context.SaveChangesAsync();
+        }
+
+        public async Task<List<Product>> GetByIdsAsync(List<int> productIds)
+        {
+            return await context.Products.AsNoTracking().Where(x => productIds.Contains(x.Id)).ToListAsync();
         }
     }
 }

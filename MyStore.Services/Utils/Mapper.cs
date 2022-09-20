@@ -1,4 +1,5 @@
-﻿using MyStore.Models;
+﻿using System.Collections.Generic;
+using MyStore.Models;
 
 namespace MyStore.Services.Utils
 {
@@ -29,7 +30,6 @@ namespace MyStore.Services.Utils
                 Img = product.Img
             };
         }
-
         public static Product ToEntity(this ProductDto product)
         {
             return new Product

@@ -72,5 +72,17 @@ namespace MyStore.Services
 
             await product.UpdateAsync(products.ToEntity());
         }
+
+        public async Task<List<ProductDto>> GetByIdsAsync(List<int> productIds)
+        {
+            if (!productIds.Any())
+            {
+                throw new AppExceptionHandler("List is empty");
+            }
+
+            var products = await product.GetByIdsAsync(productIds);
+
+            return products.Select(x => x.ToDto()).ToList();
+        }
     }
 }

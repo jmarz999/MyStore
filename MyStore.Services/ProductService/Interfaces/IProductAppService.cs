@@ -11,5 +11,6 @@ namespace MyStore.Services
         Task DeleteAsync(int id);
         Task AddAsync(CreateProductDto product);
         Task UpdateAsync(ProductDto product);
+        Task<List<ProductDto>> GetByIdsAsync(List<int> productIds);
     }
 }

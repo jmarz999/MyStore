@@ -13,5 +13,6 @@ namespace MyStore.Repositories
         Task DeleteAsync(Product product);
         Task AddAsync(Product product);
         Task UpdateAsync(Product product);
+        Task<List<Product>> GetByIdsAsync(List<int> productIds);
     }
 }

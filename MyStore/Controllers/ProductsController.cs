@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using MyStore.Models;
 using MyStore.Services;
 
 namespace MyStore.Controllers
@@ -54,6 +54,14 @@ namespace MyStore.Controllers
             await productAppService.UpdateAsync(product);
 
             return Ok();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GetByIdsAsync(ProductIdsInput input)
+        {
+            var data = await productAppService.GetByIdsAsync(input.ProductIds);
+
+            return Ok(data);
         }
     }
 }
