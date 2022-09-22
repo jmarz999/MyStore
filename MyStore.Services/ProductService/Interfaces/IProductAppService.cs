@@ -12,5 +12,7 @@ namespace MyStore.Services
         Task AddAsync(CreateProductDto product);
         Task UpdateAsync(ProductDto product);
         Task<List<ProductDto>> GetByIdsAsync(List<int> productIds);
+        List<string> GetManifactureres();
+        List<string> GetCategory();
     }
 }

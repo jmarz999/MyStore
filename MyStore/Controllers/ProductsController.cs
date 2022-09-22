@@ -63,5 +63,21 @@ namespace MyStore.Controllers
 
             return Ok(data);
         }
+
+        [HttpGet]
+        public ActionResult GetManifactureres()
+        {
+            var data = productAppService.GetManifactureres();
+
+            return Ok(data);
+        }
+
+        [HttpGet]
+        public ActionResult GetCategory()
+        {
+            var data = productAppService.GetCategory();
+
+            return Ok(data);
+        }
     }
 }

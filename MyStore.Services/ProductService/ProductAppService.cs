@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MyStore.Helpers;
+using MyStore.Models;
 using MyStore.Repositories;
 using MyStore.Services.Utils;
 
@@ -83,6 +84,20 @@ namespace MyStore.Services
             var products = await product.GetByIdsAsync(productIds);
 
             return products.Select(x => x.ToDto()).ToList();
+        }
+
+        public List<string> GetManifactureres()
+        {
+            var manufacturers = EnumExtensions.GetValues<Manufacturers>();
+
+            return manufacturers.Select(x => x.GetDisplayName()).ToList();
+        }
+
+        public List<string> GetCategory()
+        {
+            var catergories = EnumExtensions.GetValues<Category>();
+
+            return catergories.Select(x => x.GetDisplayName()).ToList();
         }
     }
 }

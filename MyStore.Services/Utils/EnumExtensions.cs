@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace MyStore.Services.Utils
 {
     public static class EnumExtensions
     {
+        //converting enum to string
         public static string GetDisplayName(this Enum enumValue)
         {
             return enumValue.GetType()
@@ -17,6 +17,8 @@ namespace MyStore.Services.Utils
                             .GetCustomAttribute<DisplayAttribute>()
                             .GetName();
         }
+
+        //converting string to enum
         public static T ToEnum<T>(this string value, T defaultValue) where T : struct
         {
             if (string.IsNullOrEmpty(value))
@@ -25,6 +27,11 @@ namespace MyStore.Services.Utils
             }
 
             return Enum.TryParse<T>(value, true, out T result) ? result : defaultValue;
+        }
+
+        public static IEnumerable<T> GetValues<T>()
+        {
+            return Enum.GetValues(typeof(T)).Cast<T>();
         }
     }
 }
