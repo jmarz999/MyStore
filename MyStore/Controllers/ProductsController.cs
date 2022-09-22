@@ -17,9 +17,9 @@ namespace MyStore.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAllAsync()
+        public async Task<ActionResult> GetAllAsync(string product, string manufacturer, string category)
         {
-            var data = await productAppService.GetAllAsync();
+            var data = await productAppService.GetAllAsync(product, manufacturer, category);
 
             return Ok(data);
         }

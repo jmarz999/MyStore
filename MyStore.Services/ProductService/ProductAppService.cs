@@ -17,9 +17,9 @@ namespace MyStore.Services
             this.product = product;
         }
 
-        public async Task<List<ProductDto>> GetAllAsync()
+        public async Task<List<ProductDto>> GetAllAsync(string productName, string manufacturer, string category)
         {
-            var products = await product.GetAllAsync();
+            var products = await product.GetAllAsync(productName, manufacturer, category);
 
             return products.Select(x => x.ToDto()).ToList();
         }

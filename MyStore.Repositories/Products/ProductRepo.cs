@@ -16,7 +16,7 @@ namespace MyStore.Repositories
             this.context = context;
         }
 
-        public async Task<List<Product>> GetAllAsync()
+        public async Task<List<Product>> GetAllAsync(string product, string manufacturer, string category)
         {
             return await context.Products.AsNoTracking().ToListAsync();
         }

@@ -6,7 +6,7 @@ namespace MyStore.Services
 {
     public interface IProductAppService
     {
-        Task<List<ProductDto>> GetAllAsync();
+        Task<List<ProductDto>> GetAllAsync(string product, string manufacturer, string category);
         Task<ProductDto> GetByIdAsync(int id);
         Task DeleteAsync(int id);
         Task AddAsync(CreateProductDto product);
