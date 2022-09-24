@@ -19,7 +19,7 @@ namespace MyStore.Services
 
         public async Task<List<ProductDto>> GetAllAsync(string productName, string manufacturer, string category)
         {
-            var products = await product.GetAllAsync(productName, manufacturer, category);
+            var products = await product.GetAllAsync(productName, manufacturer.ToEnum<Manufacturers>(Manufacturers.None), category.ToEnum<Category>(Category.None));
 
             return products.Select(x => x.ToDto()).ToList();
         }
@@ -36,7 +36,7 @@ namespace MyStore.Services
 
             if (productId == null)
             {
-                throw new AppExceptionHandler("The product is null");
+                throw new AppExceptionHandler("Product not found");
             }
 
             return productId.ToDto();

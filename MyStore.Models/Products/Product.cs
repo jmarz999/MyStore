@@ -1,4 +1,6 @@
-﻿namespace MyStore.Models
+﻿using System.Collections.Generic;
+
+namespace MyStore.Models
 {
     public class Product
     {
@@ -9,5 +11,7 @@
         public double Price { get; set; }
         public Manufacturers Manufacturers { get; set; }
         public Category Category { get; set; }
+
+        public List<ProductOrders> ProductOrders { get; set; }
     }
 }

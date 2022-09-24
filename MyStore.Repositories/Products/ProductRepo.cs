@@ -16,9 +16,14 @@ namespace MyStore.Repositories
             this.context = context;
         }
 
-        public async Task<List<Product>> GetAllAsync(string product, string manufacturer, string category)
+        public async Task<List<Product>> GetAllAsync(string product, Manufacturers manufacturer, Category category)
         {
-            return await context.Products.AsNoTracking().ToListAsync();
+            return await context.Products
+                .WhereIf(!string.IsNullOrWhiteSpace(product), x => x.Name.ToLower().Contains(product.ToLower()))
+                .WhereIf(manufacturer != Manufacturers.None, x => x.Manufacturers.Equals(manufacturer))
+                .WhereIf(category != Category.None, x => x.Category.Equals(category))
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task<Product> GetByIdAsync(int id)

@@ -43,5 +43,31 @@ namespace MyStore.Services.Utils
                 Img = product.Img
             };
         }
+
+        public static Order ToEntity(this OrderDto dto)
+        {
+            return new Order
+            {
+                Id = dto.Id,
+                Price = dto.Price
+            };
+        }
+
+        public static OrderDto ToDto(this Order order)
+        {
+            return new OrderDto
+            {
+                Id = order.Id,
+                Price = order.Price
+            };
+        }
+
+        public static Order ToEntity(this CreateOrderDto dto)
+        {
+            return new Order
+            {
+                Price = dto.Price
+            };
+        }
     }
 }

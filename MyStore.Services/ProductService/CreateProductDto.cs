@@ -1,6 +1,4 @@
-﻿using MyStore.Models;
-
-namespace MyStore.Services
+﻿namespace MyStore.Services
 {
     public class CreateProductDto
     {

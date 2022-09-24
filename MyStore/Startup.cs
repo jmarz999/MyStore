@@ -36,6 +36,8 @@ namespace MyStore
 
             services.AddTransient<IProductRepo, ProductRepo>();
             services.AddTransient<IProductAppService, ProductAppService>();
+            services.AddTransient<IOrderRepo, OrderRepo>();
+            services.AddTransient<IOrderAppService, OrderAppService>();
             services.AddControllers();
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
             {
