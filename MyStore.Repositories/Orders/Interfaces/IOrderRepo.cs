@@ -11,7 +11,7 @@ namespace MyStore.Repositories
         Task<List<Order>> GetAllAsync();
         Task<Order> GetByIdAsync(int id);
         Task DeleteAsync(Order order);
-        Task AddAsync(Order order);
+        Task<int> AddAsync(Order order);
         Task UpdateAsync(Order order);
     }
 }

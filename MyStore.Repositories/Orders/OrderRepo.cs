@@ -32,11 +32,13 @@ namespace MyStore.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task AddAsync(Order order)
+        public async Task<int> AddAsync(Order order)
         {
             context.Orders.Add(order);
 
             await context.SaveChangesAsync();
+
+            return order.Id;
         }
 
         public async Task UpdateAsync(Order order)

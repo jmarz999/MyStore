@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MyStore.Helpers;
+using MyStore.Models;
 using MyStore.Repositories;
 using MyStore.Services.Utils;
 
@@ -9,16 +10,20 @@ namespace MyStore.Services
 {
     public class OrderAppService : IOrderAppService
     {
-        private readonly IOrderRepo order;
+        private readonly IOrderRepo orderRepo;
+        private readonly IProductOrdersRepo productOrdersRepo;
+        private readonly IProductRepo productRepo;
 
-        public OrderAppService(IOrderRepo order)
+        public OrderAppService(IOrderRepo orderRepo, IProductOrdersRepo productOrdersRepo, IProductRepo productRepo)
         {
-            this.order = order;
+            this.orderRepo = orderRepo;
+            this.productOrdersRepo = productOrdersRepo;
+            this.productRepo = productRepo;
         }
 
         public async Task<List<OrderDto>> GetAllAsync()
         {
-            var orders = await order.GetAllAsync();
+            var orders = await orderRepo.GetAllAsync();
 
             return orders.Select(x => x.ToDto()).ToList();
         }
@@ -30,42 +35,59 @@ namespace MyStore.Services
                 throw new AppExceptionHandler("You must enter product id");
             }
 
-            var orderId = await order.GetByIdAsync(id);
+            var order = await orderRepo.GetByIdAsync(id);
 
-            if (orderId == null)
+            if (order == null)
             {
                 throw new AppExceptionHandler("Order not found");
             }
 
-            return orderId.ToDto();
+            return order.ToDto();
         }
 
         public async Task DeleteAsync(int id)
         {
-            var orderId = await order.GetByIdAsync(id);
+            var order = await orderRepo.GetByIdAsync(id);
 
-            if (orderId == null)
+            if (order == null)
             {
                 throw new AppExceptionHandler("Order does not exist");
             }
 
-            await order.DeleteAsync(orderId);
+            await orderRepo.DeleteAsync(order);
         }
 
-        public async Task AddAsync(CreateOrderDto orders)
+        public async Task AddAsync(CreateOrderDto order)
         {
-            await order.AddAsync(orders.ToEntity());
+            var orderId = await orderRepo.AddAsync(order.ToEntity());
+
+            foreach (var productId in order.ProductIds)
+            {
+                var product = await productRepo.GetByIdAsync(productId);
+
+                if (product != null)
+                {
+                    var productOrder = new ProductOrders
+                    {
+                        OrderId = orderId,
+                        ProductId = productId
+                    };
+
+                    await productOrdersRepo.AddAsync(productOrder);
+                }
+            }
         }
 
-        public async Task UpdateAsync(OrderDto orders)
+        public async Task UpdateAsync(OrderDto order)
         {
-            var exists = await order.GetByIdAsync(orders.Id);
+            var exists = await orderRepo.GetByIdAsync(order.Id);
 
             if (exists == null)
             {
                 throw new AppExceptionHandler("Order does not exist");
             }
-            await order.UpdateAsync(orders.ToEntity());
+
+            await orderRepo.UpdateAsync(order.ToEntity());
         }
     }
 }

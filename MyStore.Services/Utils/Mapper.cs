@@ -66,7 +66,7 @@ namespace MyStore.Services.Utils
         {
             return new Order
             {
-                Price = dto.Price
+                Price = (decimal)dto.Price
             };
         }
     }
