@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MyStore.Models
+﻿namespace MyStore.Models
 {
     public class ProductOrders
     {
