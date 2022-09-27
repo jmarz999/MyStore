@@ -32,14 +32,14 @@ namespace MyStore.Services
         {
             if (id == 0)
             {
-                throw new AppExceptionHandler("You must enter product id");
+                throw new AppExceptionHandler("Product Id is invalid");
             }
 
             var order = await orderRepo.GetByIdAsync(id);
 
             if (order == null)
             {
-                throw new AppExceptionHandler("Order not found");
+                throw new AppExceptionHandler("Order is not found");
             }
 
             return order.ToDto();
