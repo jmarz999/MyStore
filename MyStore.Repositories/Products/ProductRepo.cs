@@ -56,5 +56,10 @@ namespace MyStore.Repositories
         {
             return await context.Products.AsNoTracking().Where(x => productIds.Contains(x.Id)).ToListAsync();
         }
+
+        public async Task<bool> CheckExistingProducts(string product, Manufacturers manufacturer, Category category)
+        {
+            return await context.Products.AnyAsync(x => x.Name.Equals(product) && x.Category.Equals(category) && x.Manufacturers.Equals(manufacturer));
+        }
     }
 }

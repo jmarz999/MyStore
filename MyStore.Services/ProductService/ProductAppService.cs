@@ -19,7 +19,7 @@ namespace MyStore.Services
 
         public async Task<List<ProductDto>> GetAllAsync(string productName, string manufacturer, string category)
         {
-            var products = await product.GetAllAsync(productName, manufacturer.ToEnum<Manufacturers>(Manufacturers.None), category.ToEnum<Category>(Category.None));
+            var products = await product.GetAllAsync(productName, manufacturer.ToEnum(Manufacturers.None), category.ToEnum(Category.None));
 
             return products.Select(x => x.ToDto()).ToList();
         }
@@ -58,7 +58,16 @@ namespace MyStore.Services
 
         public async Task AddAsync(CreateProductDto products)
         {
-            await product.AddAsync(products.ToEntity());
+            var exists = await product.CheckExistingProducts(products.Name, products.Manufacturers.ToEnum(Manufacturers.None), products.Category.ToEnum(Category.None));
+            
+            if (exists)
+            {
+                throw new AppExceptionHandler("Product already exists.");
+            }
+            else
+            {
+                await product.AddAsync(products.ToEntity());
+            }
         }
 
         public async Task UpdateAsync(ProductDto products)

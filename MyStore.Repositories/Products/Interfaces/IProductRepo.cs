@@ -12,5 +12,6 @@ namespace MyStore.Repositories
         Task AddAsync(Product product);
         Task UpdateAsync(Product product);
         Task<List<Product>> GetByIdsAsync(List<int> productIds);
+        Task<bool> CheckExistingProducts(string product, Manufacturers manufacturer, Category category);
     }
 }
