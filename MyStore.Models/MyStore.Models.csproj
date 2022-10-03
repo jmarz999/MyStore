@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20221003143656_ExpandedOrderClass.cs" />
+    <Compile Remove="Migrations\20221003143656_ExpandedOrderClass.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.28" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.28" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.28" />

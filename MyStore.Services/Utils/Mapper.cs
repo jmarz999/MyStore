@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using MyStore.Models;
 
 namespace MyStore.Services.Utils
@@ -58,7 +59,13 @@ namespace MyStore.Services.Utils
             return new OrderDto
             {
                 Id = order.Id,
-                Price = order.Price
+                Price = order.Price,
+                Address = order.Address,
+                Email = order.Email,
+                LastName = order.LastName,
+                Name = order.Name,
+                Status = order.Status.GetDisplayName(),
+                Products = order.ProductOrders?.Select(x => x.Product.ToDto()).ToList()
             };
         }
 
@@ -66,7 +73,12 @@ namespace MyStore.Services.Utils
         {
             return new Order
             {
-                Price = (decimal)dto.Price
+                Price = (decimal)dto.Price,
+                Address = dto.Address,
+                Email = dto.Email,
+                Name = dto.Name,
+                LastName = dto.LastName,
+                Status = OrderStatus.Pending
             };
         }
     }
