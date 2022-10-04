@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MyStore.Middleware;
+using MyStore.Models;
 using MyStore.Models.EntityFramework;
 using MyStore.Repositories;
 using MyStore.Services;
@@ -24,6 +26,13 @@ namespace MyStore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyStore", Version = "v1" });
@@ -34,18 +43,25 @@ namespace MyStore
                 options.UseSqlServer(Configuration.GetConnectionString("MyStoreDB"));
             });
 
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MyStoreDB")), ServiceLifetime.Transient);
+
+            services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequiredLength = 8;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireDigit = true;
+                options.Password.RequireNonAlphanumeric = true;
+            });
+
             services.AddTransient<IProductRepo, ProductRepo>();
             services.AddTransient<IProductAppService, ProductAppService>();
             services.AddTransient<IOrderRepo, OrderRepo>();
             services.AddTransient<IOrderAppService, OrderAppService>();
             services.AddTransient<IProductOrdersRepo, ProductOrdersRepo>();
+
             services.AddControllers();
-            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
-            {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
-            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,6 +86,7 @@ namespace MyStore
 
             app.UseRouting();
 
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

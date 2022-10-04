@@ -1,13 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace MyStore.Models.EntityFramework
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<User>
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-        {
-
-        }
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options){}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,6 +21,7 @@ namespace MyStore.Models.EntityFramework
             
             base.OnModelCreating(modelBuilder);
         }
+
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
