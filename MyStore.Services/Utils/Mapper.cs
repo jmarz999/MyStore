@@ -50,7 +50,12 @@ namespace MyStore.Services.Utils
             return new Order
             {
                 Id = dto.Id,
-                Price = dto.Price
+                Price = dto.Price,
+                Address = dto.Address,
+                Email = dto.Email,
+                LastName = dto.LastName,
+                Name = dto.Name,
+                Status = dto.Status.ToEnum(OrderStatus.Pending)
             };
         }
 
