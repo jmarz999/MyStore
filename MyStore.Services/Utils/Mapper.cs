@@ -86,5 +86,47 @@ namespace MyStore.Services.Utils
                 Status = OrderStatus.Pending
             };
         }
+
+        public static UserDto EntityToDto(this User user)
+        {
+            return new UserDto
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Surname = user.Surname,
+                Username = user.UserName,
+                Email = user.Email,
+                Gender = user.Gender.GetDisplayName(),
+                DateOfBirth = user.DateOfBirth
+            };
+        }
+
+        public static User DtoToEntity(this CreateUserDto user)
+        {
+            return new User
+            {
+               Name = user.Name,
+               Surname = user.Surname,
+               Email = user.Email,
+               DateOfBirth = user.DateOfBirth,
+               Gender = user.Gender.ToEnum(Gender.Other),
+               PasswordHash = user.Password,
+               UserName = user.Username
+            };
+        }
+
+        public static User DtoToEntity(this UserDto user)
+        {
+            return new User
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Surname = user.Surname,
+                Email = user.Email,
+                DateOfBirth = user.DateOfBirth,
+                Gender = user.Gender.ToEnum(Gender.Other),
+                UserName = user.Username
+            };
+        }
     }
 }
