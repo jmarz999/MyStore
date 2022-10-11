@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using MyStore.Helpers;
+using MyStore.Models;
+using MyStore.Services.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using MyStore.Models;
-using MyStore.Services.Utils;
 
 namespace MyStore.Services
 {
@@ -34,15 +35,35 @@ namespace MyStore.Services
 
         public async Task CreateAsync(CreateUserDto user)
         {
-            var result = await userManager.CreateAsync(user.DtoToEntity());
+            try
+            {
+                var exists = await userManager.Users.AnyAsync(x => x.UserName == user.Username);
+
+                if (exists)
+                {
+                    throw new AppExceptionHandler("User already exists.");
+                }
+
+                await userManager.CreateAsync(user.DtoToEntity());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task UpdateAsync(UserDto user)
         {
             try
             {
-                var entity = user.DtoToEntity();
-                
+                var entity = await userManager.FindByIdAsync(user.Id);
+                entity.Surname = user.Surname;
+                entity.UserName = user.Username;
+                entity.Name = user.Name;
+                entity.Email = user.Email;
+                entity.Gender = user.Gender.ToEnum(Gender.Other);
+                entity.DateOfBirth = user.DateOfBirth;
+
                 var result = await userManager.UpdateAsync(entity);
             }
             catch (Exception ex)
@@ -54,7 +75,7 @@ namespace MyStore.Services
 
         public async Task DeleteAsync(User user)
         {
-            var result = await userManager.DeleteAsync(user);
+            await userManager.DeleteAsync(user);
         }
 
         public List<string> GetGenderValues()
