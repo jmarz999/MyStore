@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MyStore.Models;
@@ -50,11 +51,18 @@ namespace MyStore.Controllers
         }
 
         [HttpDelete]
-        public async Task<ActionResult> DeleteUser(User user)
+        public async Task<ActionResult> DeleteUser(string id)
         {
-            await userService.DeleteAsync(user);
+            try
+            {
+                await userService.DeleteAsync(id);
 
-            return Ok();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         [HttpGet]

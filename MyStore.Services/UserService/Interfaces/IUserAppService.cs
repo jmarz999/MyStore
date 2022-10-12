@@ -12,7 +12,8 @@ namespace MyStore.Services
         Task<UserDto> GetByIdAsync(string id);
         Task CreateAsync(CreateUserDto user);
         Task UpdateAsync(UserDto user);
-        Task DeleteAsync(User user);
+        Task DeleteAsync(string id);
         List<string> GetGenderValues();
+        Task<User> GetByEmailAsync(string email);
     }
 }

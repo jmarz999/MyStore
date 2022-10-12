@@ -73,9 +73,18 @@ namespace MyStore.Services
             }
         }
 
-        public async Task DeleteAsync(User user)
+        public async Task DeleteAsync(string id)
         {
-            await userManager.DeleteAsync(user);
+            try
+            {
+                var entity = await userManager.FindByIdAsync(id);
+                await userManager.DeleteAsync(entity);
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
         }
 
         public List<string> GetGenderValues()
@@ -83,6 +92,11 @@ namespace MyStore.Services
             var gender = EnumExtensions.GetValues<Gender>();
 
             return gender.Select(x => x.GetDisplayName()).ToList();
+        }
+
+        public async Task<User> GetByEmailAsync(string email)
+        {
+            return await userManager.FindByEmailAsync(email);
         }
     }
 }
