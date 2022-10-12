@@ -5,26 +5,29 @@ using System.Threading.Tasks;
 
 namespace MyStore.Controllers
 {
+    [Route("api/[controller]/[action]")]
+    [ApiController]
     public class AuthenticationController : Controller
     {
-        private readonly IAuthenticationService authenticationService;
+        private readonly IAuthService authenticationService;
 
-        public AuthenticationController(IAuthenticationService authenticationService)
+        public AuthenticationController(IAuthService authenticationService)
         {
             this.authenticationService = authenticationService;
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Login(Authentication user)
+        public async Task<IActionResult> LogIn(Authentication user)
         {
-            await authenticationService.SignInAsync(user.Email, user.Password);
+            await authenticationService.LogInAsync(user.Email, user.Password);
             return Ok();
         }
 
+        [HttpGet]
         public async Task<IActionResult> LogOut()
         {
-            await authenticationService.SignOutAsync();
+            await authenticationService.LogOutAsync();
             return Ok();
         }
     }

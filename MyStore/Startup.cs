@@ -61,6 +61,7 @@ namespace MyStore
             services.AddTransient<IOrderAppService, OrderAppService>();
             services.AddTransient<IProductOrdersRepo, ProductOrdersRepo>();
             services.AddTransient<IUserAppService, UserAppService>();
+            services.AddTransient<IAuthService, AuthService>();
 
             services.AddControllers();
         }

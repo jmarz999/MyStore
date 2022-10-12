@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace MyStore.Services
 {
-    public interface IAuthenticationService
+    public interface IAuthService
     {
-        Task<string> SignInAsync(string email, string password);
-        Task SignOutAsync();
+        Task<string> LogInAsync(string email, string password);
+        Task LogOutAsync();
     }
 }

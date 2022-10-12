@@ -44,7 +44,7 @@ namespace MyStore.Services
                     throw new AppExceptionHandler("User already exists.");
                 }
 
-                await userManager.CreateAsync(user.DtoToEntity());
+                await userManager.CreateAsync(user.DtoToEntity(), user.Password);
             }
             catch (Exception ex)
             {
