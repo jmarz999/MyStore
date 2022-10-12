@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using MyStore.Helpers;
 using MyStore.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace MyStore.Services
@@ -27,14 +28,20 @@ namespace MyStore.Services
                     throw new AppExceptionHandler("User does not exists");
                 }
 
-                await signInManager.PasswordSignInAsync(user, password, false, false);
+                var signInResult = await signInManager.PasswordSignInAsync(user, password, false, false);
 
+                if (!signInResult.Succeeded)
+                {
+                    throw new AppExceptionHandler("Password or email incorect");
+                }
+
+                //here we generate a jwt and retreieve it
                 return string.Empty;
-            }
-            catch (System.Exception ex)
-            {
 
-                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
             }
         }
 
