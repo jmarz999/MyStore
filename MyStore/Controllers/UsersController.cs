@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MyStore.AuthHelpers;
 using MyStore.Models;
 using MyStore.Services;
 
@@ -19,6 +20,7 @@ namespace MyStore.Controllers
         }
         
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<List<UserDto>>> GetAll()
         {
             var users = await userService.GetAllAsync();
@@ -27,6 +29,7 @@ namespace MyStore.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<UserDto>> GetById(string id)
         {
             var user = await userService.GetByIdAsync(id);
@@ -35,6 +38,7 @@ namespace MyStore.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> CreateUser(CreateUserDto user)
         {
             await userService.CreateAsync(user);
@@ -43,6 +47,7 @@ namespace MyStore.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<ActionResult> UpdateUser(UserDto user)
         {
             await userService.UpdateAsync(user);
@@ -51,6 +56,7 @@ namespace MyStore.Controllers
         }
 
         [HttpDelete]
+        [Authorize]
         public async Task<ActionResult> DeleteUser(string id)
         {
             try
@@ -66,6 +72,7 @@ namespace MyStore.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult GetGenderValues()
         {
             var gender = userService.GetGenderValues();

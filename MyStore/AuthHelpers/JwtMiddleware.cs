@@ -28,14 +28,14 @@ namespace MyStore.AuthHelpers
 
             if (token != null)
             {
-                AttachUserToContext(context, userService, token);
+                await AttachUserToContext(context, userService, token);
             }
 
             await _next(context);
         }
 
 
-        private void AttachUserToContext(HttpContext context, IUserAppService userService, string token)
+        private async Task AttachUserToContext(HttpContext context, IUserAppService userService, string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
@@ -53,7 +53,7 @@ namespace MyStore.AuthHelpers
             var userId = jwtToken.Claims.First(x => x.Type == "id").Value;
 
             // attach user to context on successful jwt validation
-            context.Items["User"] = userService.GetByIdAsync(userId);
+            context.Items["User"] = await userService.GetByIdAsync(userId);
         }
     }
 }
