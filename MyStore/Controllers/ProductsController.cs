@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MyStore.AuthHelpers;
 using MyStore.Services;
 
 namespace MyStore.Controllers
@@ -41,6 +42,7 @@ namespace MyStore.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> AddAsync(CreateProductDto product)
         {
             await productAppService.AddAsync(product);

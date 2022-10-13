@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MyStore.Models;
 using MyStore.Services;
 using System.Threading.Tasks;
 
@@ -20,8 +19,8 @@ namespace MyStore.Controllers
         [HttpPost]
         public async Task<IActionResult> LogIn(Authentication user)
         {
-            await authenticationService.LogInAsync(user.Email, user.Password);
-            return Ok();
+            var response = await authenticationService.LogInAsync(user.Email, user.Password);
+            return Ok(response);
         }
 
         [HttpGet]

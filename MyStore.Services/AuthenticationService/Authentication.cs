@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MyStore.Models
+namespace MyStore.Services
 {
     public class Authentication
     {

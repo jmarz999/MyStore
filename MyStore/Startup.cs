@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using MyStore.AuthHelpers;
 using MyStore.Middleware;
 using MyStore.Models;
 using MyStore.Models.EntityFramework;
@@ -55,6 +56,7 @@ namespace MyStore
                 options.Password.RequireNonAlphanumeric = true;
             });
 
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddTransient<IProductRepo, ProductRepo>();
             services.AddTransient<IProductAppService, ProductAppService>();
             services.AddTransient<IOrderRepo, OrderRepo>();
@@ -91,6 +93,8 @@ namespace MyStore
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

@@ -1,7 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using MyStore.Helpers;
 using MyStore.Models;
+using MyStore.Services.Utils;
 using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MyStore.Services
@@ -10,14 +16,16 @@ namespace MyStore.Services
     {
         private readonly IUserAppService userAppService;
         private readonly SignInManager<User> signInManager;
+        private readonly AppSettings appSettings;
 
-        public AuthService(IUserAppService userAppService, SignInManager<User> signInManager)
+        public AuthService(IUserAppService userAppService, SignInManager<User> signInManager, IOptions<AppSettings> appSettings)
         {
             this.userAppService = userAppService;
             this.signInManager = signInManager;
+            this.appSettings = appSettings.Value;
         }
 
-        public async Task<string> LogInAsync(string email, string password)
+        public async Task<AuthenticateResponse> LogInAsync(string email, string password)
         {
             try
             {
@@ -35,8 +43,9 @@ namespace MyStore.Services
                     throw new AppExceptionHandler("Password or email incorect");
                 }
 
-                //here we generate a jwt and retreieve it
-                return string.Empty;
+                string jwtToken = GenerateJwtToken(user);
+
+                return new AuthenticateResponse(user.EntityToDto(), jwtToken);
 
             }
             catch (Exception ex)
@@ -48,6 +57,20 @@ namespace MyStore.Services
         public async Task LogOutAsync()
         {
             await signInManager.SignOutAsync();
+        }
+
+        private  string GenerateJwtToken(User user)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),
+                Expires = DateTime.UtcNow.AddDays(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
     }
 }

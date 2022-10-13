@@ -7,7 +7,7 @@ namespace MyStore.Services
 {
     public interface IAuthService
     {
-        Task<string> LogInAsync(string email, string password);
+        Task<AuthenticateResponse> LogInAsync(string email, string password);
         Task LogOutAsync();
     }
 }

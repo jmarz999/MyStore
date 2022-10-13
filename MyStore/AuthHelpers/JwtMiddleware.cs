@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using MyStore.Models;
 using MyStore.Services;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -33,6 +34,7 @@ namespace MyStore.AuthHelpers
             await _next(context);
         }
 
+
         private void AttachUserToContext(HttpContext context, IUserAppService userService, string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -48,10 +50,10 @@ namespace MyStore.AuthHelpers
             }, out SecurityToken validatedToken);
 
             var jwtToken = (JwtSecurityToken)validatedToken;
-            var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
+            var userId = jwtToken.Claims.First(x => x.Type == "id").Value;
 
             // attach user to context on successful jwt validation
-            context.Items["User"] = userService.GetByIdAsync(userId.ToString());
+            context.Items["User"] = userService.GetByIdAsync(userId);
         }
     }
 }
