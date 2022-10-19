@@ -8,8 +8,8 @@ namespace MyStore.Models
         None,
         [Display(Name = "Balea")]
         Balea,
-        [Display(Name = "Alverde")]
-        Alverde,
+        [Display(Name = "Bioderma")]
+        Bioderma,
         [Display(Name = "Essence")]
         Essence,
         [Display(Name = "Maybeline")]

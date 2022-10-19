@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MyStore.Services;
+﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using MyStore.Services;
 
 namespace MyStore.Controllers
 {
@@ -26,8 +27,16 @@ namespace MyStore.Controllers
         [HttpGet]
         public async Task<IActionResult> LogOut()
         {
-            await authenticationService.LogOutAsync();
-            return Ok();
+            try
+            {
+                await authenticationService.LogOutAsync();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

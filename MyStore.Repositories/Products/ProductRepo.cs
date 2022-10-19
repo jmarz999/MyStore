@@ -22,6 +22,7 @@ namespace MyStore.Repositories
                 .WhereIf(!string.IsNullOrWhiteSpace(product), x => x.Name.ToLower().Contains(product.ToLower()))
                 .WhereIf(manufacturer != Manufacturers.None, x => x.Manufacturers.Equals(manufacturer))
                 .WhereIf(category != Category.None, x => x.Category.Equals(category))
+                .Include(x => x.ProductIngredients)
                 .AsNoTracking()
                 .ToListAsync();
         }
@@ -38,11 +39,13 @@ namespace MyStore.Repositories
             await context.SaveChangesAsync();
         }
 
-        public async Task AddAsync(Product product)
+        public async Task<int> AddAsync(Product product)
         {
-            await context.Products.AddAsync(product);
+           await context.Products.AddAsync(product);
 
             await context.SaveChangesAsync();
+
+            return product.Id;
         }
 
         public async Task UpdateAsync(Product product)

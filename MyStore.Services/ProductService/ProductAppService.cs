@@ -11,10 +11,12 @@ namespace MyStore.Services
     public class ProductAppService : IProductAppService
     {
         private readonly IProductRepo product;
+        private readonly IIngredientsRepo ingredientsRepo;
 
-        public ProductAppService(IProductRepo product)
+        public ProductAppService(IProductRepo product, IIngredientsRepo ingredientsRepo)
         {
             this.product = product;
+            this.ingredientsRepo = ingredientsRepo;
         }
 
         public async Task<List<ProductDto>> GetAllAsync(string productName, string manufacturer, string category)
@@ -59,15 +61,24 @@ namespace MyStore.Services
         public async Task AddAsync(CreateProductDto products)
         {
             var exists = await product.CheckExistingProducts(products.Name, products.Manufacturers.ToEnum(Manufacturers.None), products.Category.ToEnum(Category.None));
-            
+
             if (exists)
             {
                 throw new AppExceptionHandler("Product already exists.");
             }
             else
             {
-                await product.AddAsync(products.ToEntity());
+                var result = await product.AddAsync(products.ToEntity());
+
+                foreach (var item in products.Ingredients)
+                {
+                    item.ProductId = result;
+                }
             }
+
+            var ingredients = products.Ingredients.Select(x => x.ToEntity()).ToList();
+
+            await ingredientsRepo.AddRange(ingredients);
         }
 
         public async Task UpdateAsync(ProductDto products)

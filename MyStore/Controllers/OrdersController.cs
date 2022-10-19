@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MyStore.AuthHelpers;
 using MyStore.Services;
 
 namespace MyStore.Controllers
@@ -16,6 +17,7 @@ namespace MyStore.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult> GetAllAsync()
         {
             var data = await orderAppService.GetAllAsync();
@@ -24,6 +26,7 @@ namespace MyStore.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult> GetByIdAsync(int id)
         {
             var data = await orderAppService.GetByIdAsync(id);
@@ -32,6 +35,7 @@ namespace MyStore.Controllers
         }
 
         [HttpDelete]
+        [Authorize]
         public async Task<ActionResult> DeleteAsync(int id)
         {
             await orderAppService.DeleteAsync(id);
@@ -48,6 +52,7 @@ namespace MyStore.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<ActionResult> UpdateAsync(OrderDto order)
         {
             await orderAppService.UpdateAsync(order);

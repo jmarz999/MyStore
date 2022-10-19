@@ -9,7 +9,7 @@ namespace MyStore.Repositories
         Task<List<Product>> GetAllAsync(string product, Manufacturers manufacturer, Category category);
         Task<Product> GetByIdAsync(int id);
         Task DeleteAsync(Product product);
-        Task AddAsync(Product product);
+        Task<int> AddAsync(Product product);
         Task UpdateAsync(Product product);
         Task<List<Product>> GetByIdsAsync(List<int> productIds);
         Task<bool> CheckExistingProducts(string product, Manufacturers manufacturer, Category category);

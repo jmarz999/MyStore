@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using MyStore.Models;
 
 namespace MyStore.Services.Utils
@@ -15,7 +14,10 @@ namespace MyStore.Services.Utils
                 Manufacturers = dto.Manufacturers.ToEnum(Manufacturers.None),
                 Name = dto.Name,
                 Price = dto.Price,
-                Img = dto.Img
+                Img = dto.Img,
+                ExpirationDate = dto.ExpirationDate,
+                IsVegan = dto.IsVegan,
+                Quantity = dto.Quantity
             };
         }
         public static ProductDto ToDto(this Product product)
@@ -27,8 +29,12 @@ namespace MyStore.Services.Utils
                 Description = product.Description,
                 Manufacturers = product.Manufacturers.GetDisplayName(),
                 Name = product.Name,
-                Price = product.Price, 
-                Img = product.Img
+                Price = product.Price,
+                Img = product.Img,
+                ExpirationDate = product.ExpirationDate,
+                IsVegan = product.IsVegan,
+                Quantity = product.Quantity,
+                Ingredients = product.ProductIngredients.Select(x => x.ToDto()).ToList()
             };
         }
         public static Product ToEntity(this ProductDto product)
@@ -41,7 +47,10 @@ namespace MyStore.Services.Utils
                 Manufacturers = product.Manufacturers.ToEnum(Manufacturers.None),
                 Name = product.Name,
                 Price = product.Price,
-                Img = product.Img
+                Img = product.Img,
+                ExpirationDate = product.ExpirationDate,
+                IsVegan = product.IsVegan,
+                Quantity = product.Quantity
             };
         }
 
@@ -105,13 +114,13 @@ namespace MyStore.Services.Utils
         {
             return new User
             {
-               Name = user.Name,
-               Surname = user.Surname,
-               Email = user.Email,
-               DateOfBirth = user.DateOfBirth,
-               Gender = user.Gender.ToEnum(Gender.Other),
-               PasswordHash = user.Password,
-               UserName = user.Username
+                Name = user.Name,
+                Surname = user.Surname,
+                Email = user.Email,
+                DateOfBirth = user.DateOfBirth,
+                Gender = user.Gender.ToEnum(Gender.Other),
+                PasswordHash = user.Password,
+                UserName = user.Username
             };
         }
 
@@ -126,6 +135,24 @@ namespace MyStore.Services.Utils
                 DateOfBirth = user.DateOfBirth,
                 Gender = user.Gender.ToEnum(Gender.Other),
                 UserName = user.Username
+            };
+        }
+
+        public static Ingredients ToEntity(this IngredientsDto ingredient)
+        {
+            return new Ingredients
+            {
+                Name = ingredient.Name,
+                ProductId = ingredient.ProductId
+            };
+        }
+
+        public static IngredientsDto ToDto(this Ingredients ingredient)
+        {
+            return new IngredientsDto
+            {
+                Name = ingredient.Name,
+                ProductId = ingredient.ProductId
             };
         }
     }

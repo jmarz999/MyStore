@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MyStore.AuthHelpers;
-using MyStore.Models;
 using MyStore.Services;
 
 namespace MyStore.Controllers
@@ -18,7 +17,7 @@ namespace MyStore.Controllers
         {
             this.userService = userService;
         }
-        
+
         [HttpGet]
         [Authorize]
         public async Task<ActionResult<List<UserDto>>> GetAll()

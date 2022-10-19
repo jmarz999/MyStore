@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MyStore.AuthHelpers;
 using MyStore.Services;
@@ -34,6 +33,7 @@ namespace MyStore.Controllers
         }
 
         [HttpDelete]
+        [Authorize]
         public async Task<ActionResult> DeleteAsync(int id)
         {
             await productAppService.DeleteAsync(id);
@@ -42,7 +42,6 @@ namespace MyStore.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<ActionResult> AddAsync(CreateProductDto product)
         {
             await productAppService.AddAsync(product);
@@ -51,6 +50,7 @@ namespace MyStore.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<ActionResult> UpdateAsync(ProductDto product)
         {
             await productAppService.UpdateAsync(product);

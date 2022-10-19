@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MyStore.Models
 {
@@ -11,7 +12,11 @@ namespace MyStore.Models
         public double Price { get; set; }
         public Manufacturers Manufacturers { get; set; }
         public Category Category { get; set; }
+        public string Quantity { get; set; }
+        public bool IsVegan { get; set; }
+        public DateTime ExpirationDate { get; set; }
 
         public List<ProductOrders> ProductOrders { get; set; }
+        public List<Ingredients> ProductIngredients { get; set; }
     }
 }
